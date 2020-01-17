@@ -5,18 +5,38 @@ const { buildSchema } = require('graphql');
 const port = 4000;
 
 var schema = buildSchema(`
+    type RandomDie {
+        rollOnce: Int!
+        numSides: Int!
+        roll(numRolls: Int!): [Int]
+    }
+    
     type Query {
-        rollDice(numDice: Int!, numSides: Int): [Int]
+        getDie(numSides: Int): RandomDie
     }
 `);
 
-var root = {
-    rollDice: (args) => {
+class RandomDie {
+    constructor(numSides) {
+        this.numSides = numSides;
+    }
+
+    rollOnce() {
+        return 1 + Math.floor(Math.random() * this.numSides);
+    }
+
+    roll({ numRolls }) {
         var output = [];
-        for (var i = 0; i < args.numDice; i++) {
-            output.push(1 + Math.floor(Math.random() * (args.numSides || 6)));
+        for (var i = 0; i < numRolls; i++) {
+            output.push(this.rollOnce());
         }
         return output;
+    }
+}
+
+var root = {
+    getDie: ({ numSides }) => {
+        return new RandomDie(numSides || 6);
     }
 };
 
