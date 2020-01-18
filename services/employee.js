@@ -39,7 +39,31 @@ function getEmployeeSalaryDetail(empId) {
     });
 }
 
+function updateEmployee(empId, firstName, lastName) {
+    return new Promise((resolve, reject) => {
+        Employees.findOne({
+            where: {
+                empNo: empId
+            }
+        }).then(employee => {
+            if (employee) {
+                employee.update({
+                    firstName,
+                    lastName
+                }).then(data => {
+                    resolve(data);
+                }).catch(err => {
+                    reject(err);
+                });
+            }
+        }).catch(err => {
+            reject(err);
+        });
+    });
+}
+
 module.exports = {
     getAllEmployees,
-    getEmployeeSalaryDetail
+    getEmployeeSalaryDetail,
+    updateEmployee
 };

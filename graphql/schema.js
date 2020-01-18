@@ -1,6 +1,11 @@
 const { buildSchema } = require('graphql');
 
 var schema = buildSchema(`
+    input NameInput {
+        firstName: String
+        lastName: String
+    }
+
     type Salary {
         salary: Int!
         from: String
@@ -23,6 +28,10 @@ var schema = buildSchema(`
     type Department {
         deptNo: String
         deptName: String
+    }
+
+    type Mutation {
+        updateEmployee(empId: Int!, input: NameInput): Employee
     }
 
     type Query {

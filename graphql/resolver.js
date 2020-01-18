@@ -1,4 +1,8 @@
-const { getAllEmployees, getEmployeeSalaryDetail } = require('../services/employee');
+const {
+    getAllEmployees,
+    getEmployeeSalaryDetail,
+    updateEmployee
+} = require('../services/employee');
 const { getAllDepartments } = require('../services/department');
 
 class Employee {
@@ -61,6 +65,11 @@ var root = {
             totalLength: salaryDetailsList.length,
             salaryDetails: salaryDetailsList
         };
+    },
+    updateEmployee: async function ({ empId, input }) {
+        const employee = await updateEmployee(empId, input['firstName'], input['lastName']);
+        const updatedEmployee = new Employee(employee);
+        return updatedEmployee;
     }
 };
 
