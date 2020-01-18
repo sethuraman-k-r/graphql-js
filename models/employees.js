@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 
-const DepartmentEmployee = require('./dept_emp');
 const { getConnection } = require('../utils/db_connection');
 
 const Model = Sequelize.Model;
